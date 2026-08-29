@@ -1,3 +1,6 @@
+require("dotenv").config({
+  path: "config/.env",
+});
 const express = require("express");
 const ErrorMiddleware = require("./middelware/error");
 const app = express();
@@ -5,7 +8,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173/", credentials: true }));
 
 app.use(express.json());
 app.use(cookieParser());
@@ -16,11 +19,11 @@ app.use("/test", (req, res) => {
 
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 // config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({
-    path: "config/.env",
-  });
-}
+// if (process.env.NODE_ENV !== "PRODUCTION") {
+//   require("dotenv").config({
+//     path: "config/.env",
+//   });
+// }
 
 // import routes
 const user = require("./controller/user");
